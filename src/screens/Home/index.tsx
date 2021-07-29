@@ -2,7 +2,8 @@ import React from 'react';
 
 import {
   FlatList,
-  View
+  View,
+  
 } from 'react-native';
 
 import { styles } from './styles';
@@ -19,6 +20,10 @@ export function Home () {
     },
     {
       id: '2',
+      title: 'Alguma coisa, será',
+    },
+    {
+      id: '3',
       title: 'Alguma coisa, será',
     },
   ]

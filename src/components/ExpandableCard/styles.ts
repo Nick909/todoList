@@ -3,15 +3,15 @@ import { theme } from '../../global/styles';
 
 export const styles = StyleSheet.create({
   container: {
+    marginBottom: 44,
+  },
+  topCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
     width: '100%',
     height: 56,
     backgroundColor: theme.colors.default,
-    borderRadius: 15,
-    flexDirection: 'row',
-    alignItems: 'center',
     paddingHorizontal: 21,
-    marginBottom: 44,
-    
   },
   title: {
     fontSize: 18,
@@ -31,6 +31,23 @@ export const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'flex-end', 
     alignItems: 'center',
+  },
+  bottomCard: {
+    paddingHorizontal: 21,
+    height: 175,
+    width: 328,
+    backgroundColor: theme.colors.white,
+    borderBottomRightRadius: 20,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 
 });

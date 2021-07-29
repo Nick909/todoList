@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { StyleSheet, View } from 'react-native';
+import { 
+  StyleSheet, 
+  View, 
+  Platform, 
+  UIManager
+} from 'react-native';
 
 import { useFonts, Lato_300Light, Lato_400Regular, Lato_700Bold } from '@expo-google-fonts/lato';
 import { Merriweather_700Bold } from '@expo-google-fonts/merriweather';
@@ -17,6 +22,12 @@ export default function App() {
     Lato_700Bold,
     Merriweather_700Bold,
   });
+
+  if (Platform.OS === 'android') {
+    if (UIManager.setLayoutAnimationEnabledExperimental) {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
 
   if(!fontsLoaded) {
     return <AppLoading />
