@@ -4,6 +4,7 @@ import { theme } from '../../global/styles';
 export const styles = StyleSheet.create({
   container: {
     marginBottom: 44,
+
   },
   topCard: {
     flexDirection: 'row',
@@ -12,12 +13,14 @@ export const styles = StyleSheet.create({
     height: 56,
     backgroundColor: theme.colors.default,
     paddingHorizontal: 21,
+
   },
   title: {
     fontSize: 18,
     fontFamily: theme.fonts.title700,
     color: theme.colors.white,
     textAlign: 'center',
+
   },
   wrapper: {
     height: 38,
@@ -31,14 +34,14 @@ export const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'flex-end', 
     alignItems: 'center',
+
   },
   bottomCard: {
-    paddingHorizontal: 21,
+    width: '100%',
     height: 175,
-    width: 328,
-    backgroundColor: theme.colors.white,
+    padding: 21,
     borderBottomRightRadius: 20,
-
+    backgroundColor: theme.colors.white,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -46,8 +49,24 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
+
   },
+  cardTitle: {
+    fontSize: 16,
+    fontFamily: theme.fonts.title400,
+    marginBottom: 18,
+
+  },
+  contentcard: {
+    fontSize: 14,
+    fontFamily: theme.fonts.text300,
+    textAlign: 'justify',
+    marginBottom: 36,
+  },
+  cardIcon: {
+    alignItems: 'flex-end',
+    marginBottom: 18,
+  }
 
 });

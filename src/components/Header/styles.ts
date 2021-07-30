@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.colors.black_Highlight,
     paddingLeft: 16,
     justifyContent: 'center',
-    marginBottom: 72,
 
   },
   title: {
