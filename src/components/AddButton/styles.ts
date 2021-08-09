@@ -17,5 +17,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.30,
     shadowRadius: 4.65,
     elevation: 8,
+    borderWidth: 1,
+    borderColor: theme.colors.grayW,
   }
 });
