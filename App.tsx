@@ -10,10 +10,14 @@ import {
 import { useFonts, Lato_300Light, Lato_400Regular, Lato_700Bold } from '@expo-google-fonts/lato';
 import { Merriweather_700Bold } from '@expo-google-fonts/merriweather';
 import { StatusBar } from 'expo-status-bar';
-
 import AppLoading from 'expo-app-loading';
+import { Provider } from 'react-redux';
+import Store from './src/redux/app';
+
+import { theme } from './src/global/styles/styles';
+
 import { Home } from './src/screens/Home';
-import { theme } from './src/global/styles';
+import { AppRoutes } from './src/routes';
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -35,12 +39,16 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar 
-        style={'light'}
-        backgroundColor={theme.colors.black}
-        translucent
-      />
-      <Home />
+      <Provider store={Store} >
+        <StatusBar 
+          style={'light'}
+          backgroundColor={theme.colors.black}
+          translucent
+
+        />
+        <AppRoutes />
+
+      </Provider>
     </View>
   );
 }

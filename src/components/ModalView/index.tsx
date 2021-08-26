@@ -8,18 +8,47 @@ import {
   View, 
   Text, 
   ScrollView,
+  Alert,
 } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
 import { styles } from './styles';
+
 import { ButtonSC } from '../ButtonSC';
+
+export type Todo = {
+  id: string;
+  name: string,
+  title: string,
+  text: string,
+}
 
 type Props = ModalProps & {
   closeModal: () => void; 
   visible: boolean;
+  saveTodo: (todo: Todo) => void;
+
 }
 
-export function ModalView({ closeModal, visible, ...rest }: Props){
+export function ModalView({ closeModal, visible, saveTodo,...rest }: Props){
+  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
+  const [text, setText] = useState('');
+
+  function handleSave () {
+    if(title && name && text) {
+      saveTodo({id: '', title, text, name})
+      setName('');
+      setText('');
+      setTitle('');
+      closeModal();
+
+    } else {
+      Alert.alert('algum campo está vazio');
+
+    }
+  }
+
 
   return (
       <Modal
@@ -51,6 +80,8 @@ export function ModalView({ closeModal, visible, ...rest }: Props){
                   style={styles.modalTextIpunt} 
                   placeholder={'  Name'}
                   maxLength={50}
+                  onChangeText={setName}
+                  value={name}
 
                 />
 
@@ -58,6 +89,8 @@ export function ModalView({ closeModal, visible, ...rest }: Props){
                   style={styles.modalTextIpunt} 
                   placeholder={'  Titulo'}
                   maxLength={50}
+                  onChangeText={setTitle}
+                  value={title}
 
                 />
 
@@ -66,10 +99,13 @@ export function ModalView({ closeModal, visible, ...rest }: Props){
                     style={styles.textStyle} 
                     maxLength={250}
                     multiline
+                    onChangeText={setText}
+                    value={text}
+
                   />
                 </View>
                 
-                <ButtonSC onPress={ () => closeModal() } title='Salve' />
+                <ButtonSC onPress={ handleSave } title='Salve' />
 
                 <View style={styles.modalfooter} />
                   

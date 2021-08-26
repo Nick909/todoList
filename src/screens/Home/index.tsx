@@ -1,125 +1,115 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import {
   FlatList,
   View,
-  LayoutAnimation
+  LayoutAnimation,
   
 } from 'react-native';
 
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { styles } from './styles';
+
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { COLLECTION_APPOINTMENTS } from '../../config/database';
+import { removeTodo, cloneTodo } from '../../redux/features/todoListSlice';
 
 import { ExpandableCard } from '../../components/ExpandableCard';
 import { AddButton } from '../../components/AddButton';
-import { ModalView } from '../../components/ModalView';
 import { Header } from '../../components/Header';
+import { Todo } from '../../components/ModalView';
 
 export function Home () {
-  const [openGuildsModal, setOpenGuildsModal] = useState(false);
-  const obj = [
-    {
-      id: '1',
-      title: 'Alguma coisa 123323',
-
-    },
-    {
-      id: '2',
-      title: 'Alguma coisa, será',
-
-    },
-    {
-      id: '3',
-      title: 'Alguma coisa, será',
-
-    },
-    {
-      id: '4',
-      title: 'Alguma coisa',
-
-    },
-    {
-      id: '5',
-      title: 'Alguma coisa, será',
-
-    },
-    {
-      id: '6',
-      title: 'Alguma coisa, será',
-
-    },
-
-    {
-      id: '7',
-      title: 'Alguma coisa',
-
-    },
-    {
-      id: '8',
-      title: 'Alguma coisa, será',
-
-    },
-    {
-      id: '9',
-      title: 'Alguma coisa, será',
-
-    },
-    {
-      id: '10',
-      title: 'Alguma coisa',
-
-    },
-    {
-      id: '11',
-      title: 'Alguma coisa, será',
-
-    },
-    {
-      id: '12',
-      title: 'Alguma coisa, será',
-
-    },
-  ];
+  const [bool, setBool] = useState(false);
+  const { todoList } = useAppSelector(state => state);
+  const navigation = useNavigation();
+  
+  const dispatch = useAppDispatch();
 
   function handlerSwitchModal () {
-    setOpenGuildsModal(!openGuildsModal);
+    navigation.navigate('AppointmentDetails' as never);
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
   }
+
+  function handlerRemoveTodo (id: string) {
+    dispatch(removeTodo(id));
+
+  }
+ 
+
+
+  async function saveAppointment () {
+    try {
+      const storage = JSON.stringify(todoList);
+      await AsyncStorage.setItem(COLLECTION_APPOINTMENTS, storage);
+
+    } catch (error) {
+      console.log(error, 'Home 50');
+
+    }
+  }
+
+  async function loadingAppointment () {
+    try {
+      const response = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+      const storage: Todo[] = response ? JSON.parse(response) : [];
+
+      dispatch(cloneTodo(storage));
+
+    } catch (error) {
+      console.log(error, 'Home 63');
+      
+    }
+  }
+
+  useFocusEffect(useCallback(() => {
+    if(bool){
+      saveAppointment();
+
+    } else {
+      loadingAppointment(); 
+      setBool(!bool);
+
+    }
+  }, [todoList]));
 
   return (
     <View style={styles.container}>
 
       <Header title='Todo List' />
-      { !openGuildsModal ?
       
-        <View style={styles.content} >
-          <View style={styles.addButton} >
-            <AddButton onPress={ handlerSwitchModal } />
-
-          </View>
-
-          <FlatList 
-            data={obj}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <ExpandableCard title={item.title} />
-            )}
-            contentContainerStyle={{paddingBottom: 50, paddingTop: 103, zIndex: 0 }}
-            showsVerticalScrollIndicator={false}
-
-          />
+      <View style={styles.content} >
+        <View style={styles.addButton} >
+          <AddButton onPress={ handlerSwitchModal } />
 
         </View>
 
-        :
-        <>
-          <ModalView closeModal={ handlerSwitchModal } visible={ openGuildsModal } />
-          <View style={styles.backCover} />
-          
-        </>
+        <FlatList 
+          data={todoList}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <ExpandableCard 
+              id={item.id} 
+              title={item.title} 
+              name={item.name} 
+              text={item.text} 
+              removeFunction={handlerRemoveTodo} 
 
-      }
-      
+            />
+          )}
+          contentContainerStyle={{paddingBottom: 50, paddingTop: 103, zIndex: 0 }}
+          showsVerticalScrollIndicator={false}
+
+        />
+
+      </View>
+
+        
     </View>
+
   );
 }
 

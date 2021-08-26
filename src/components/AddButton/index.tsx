@@ -10,7 +10,7 @@ import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 import { styles } from './styles';
-import { theme } from '../../global/styles';
+import { theme } from '../../global/styles/styles';
 
 type Props = RectButtonProps;
 

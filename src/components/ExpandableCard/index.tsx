@@ -6,25 +6,43 @@ import {
   LayoutAnimation, 
 } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { RectButton, RectButtonProps, ScrollView } from 'react-native-gesture-handler';
 
 import DeleteSVG from '../../assets/delete_black_24dp.svg';
 import EditSVG from '../../assets/edit_black_24dp.svg';
-import { theme } from '../../global/styles';
+import { theme } from '../../global/styles/styles';
+import { Todo } from '../ModalView';
 import { styles } from './styles';
 
 
-type Props = RectButtonProps & {
-  title: string;
+type Props = RectButtonProps & Todo & {
+  id: string;
+  removeFunction: (id: string) => void;
+
 }
 
-export function ExpandableCard({ title, ...rest }: Props){
+export function ExpandableCard ({ 
+  id,
+  name, 
+  title, 
+  text, 
+  removeFunction,
+  ...rest
+}: Props) {
   const [expand, setExpand] = useState(false);
+  const navigation = useNavigation();
 
   function handleExpand () {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    
     setExpand(!expand);
+
+  }
+
+  function  handleParams () {
+    navigation.navigate('AppointmentUpdate' as never, {id} as never);
+
   }
 
   
@@ -36,40 +54,50 @@ export function ExpandableCard({ title, ...rest }: Props){
           [styles.topCard, {borderTopLeftRadius: 15, borderTopRightRadius: 15}] 
           : [styles.topCard, {borderRadius: 15}]
         }>
-            <Text style={styles.title}>
-              {title}  
-            </Text>
+          <Text style={styles.title}>
+            {name}  
+          </Text>
 
-            <View style={styles.divider}>
+          <View style={styles.divider}>
               <View style={styles.wrapper} />
-            
-              <DeleteSVG 
-                height={24}
-                width={24}
-                fill={theme.colors.white}
-              />
-        
+              
+              <RectButton onPress={() => removeFunction(id)}>
+                <View style={{height: 50, justifyContent: 'center'}}>
+                  <DeleteSVG 
+                      height={24}
+                      width={24}
+                      fill={theme.colors.white}
+                    
+                    />
+
+                </View>
+              </RectButton>
             </View>
-          </View>
-    
-        </RectButton>
+        </View>
+      </RectButton>
 
         { expand && 
           <ScrollView style={styles.bottomCard}> 
-            <View style={styles.cardIcon}>
-              <EditSVG
-                height={24}
-                width={24}
-              />
+          <View style={{
+            flex: 1,
+            flexDirection: 'row',}}>
 
-            </View>
+          </View>
+            <RectButton style={styles.cardIcon} onPress={handleParams} >
+                <EditSVG
+                  height={24}
+                  width={24}
+
+                />
+
+            </RectButton>
 
             <Text style={styles.cardTitle}>
-              O que é Lorem Ipsum?
+             {title}
             </Text>
 
             <Text style={styles.contentcard} >
-              Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.
+              {text}
             </Text>
 
           </ScrollView>

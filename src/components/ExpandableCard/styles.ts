@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { theme } from '../../global/styles';
+import { theme } from '../../global/styles/styles';
 
 export const styles = StyleSheet.create({
   container: {
@@ -63,10 +63,14 @@ export const styles = StyleSheet.create({
     fontFamily: theme.fonts.text300,
     textAlign: 'justify',
     marginBottom: 36,
+
   },
   cardIcon: {
-    alignItems: 'flex-end',
     marginBottom: 18,
+    alignSelf: 'flex-end', 
+    width: 30, 
+    height: 30, 
+    alignItems: 'center', 
+    justifyContent: 'center'
   }
-
 });

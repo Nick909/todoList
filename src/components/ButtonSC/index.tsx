@@ -13,6 +13,7 @@ type Props = PressableProps & {
 
 }
 
+//SC save cancel
 export function ButtonSC ({ title, ...rest }: Props){
   return (
     <Pressable style={ styles.container } { ...rest } >
